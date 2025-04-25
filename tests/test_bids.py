@@ -1,6 +1,6 @@
 import pytest
 
-from src.bids import BIDSDirectory, ClinicaDirectory
+from neuro_ix_tools.bids import BIDSDirectory, ClinicaDirectory
 
 
 # TESTS ON SUB ONLY DATASET

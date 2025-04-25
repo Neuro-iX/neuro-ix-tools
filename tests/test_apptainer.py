@@ -2,7 +2,7 @@ import subprocess
 
 import pytest
 
-from src.commands.apptainer import ApptainerEnv
+from neuro_ix_tools.processing.apptainer import ApptainerEnv
 
 
 @pytest.fixture()

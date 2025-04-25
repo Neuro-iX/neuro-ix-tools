@@ -113,7 +113,7 @@ class ClinicaDirectory(BIDSDirectory):
         root_dir (str): Root directory for all datasets
         """
         super().__init__(dataset_path)
-        self.base_path = os.path.join(self.dataset_path, "subjects")
+        self.dataset_path = os.path.join(self.dataset_path, "subjects")
 
         # Clinica datasets necessarily have session because clinica will not process
         # a bids datset without it

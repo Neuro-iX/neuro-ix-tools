@@ -5,8 +5,8 @@ import shutil
 import pytest
 from simple_slurm import Slurm
 
-from src.bids import BIDSDirectory
-from src.commands.freesurfer import (
+from neuro_ix_tools.bids import BIDSDirectory
+from neuro_ix_tools.processing.freesurfer import (
     ApptainerFreesurfer,
     FreeSurferReconAll,
     cpy_all,

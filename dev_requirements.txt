@@ -1,0 +1,13 @@
+simple-slurm==0.2.7
+click==8.1.8
+dotenv==0.9.9
+rich==14.0.0
+ruff==0.11.7
+pylint==3.3.6
+mypy==1.15.0
+pytest==8.3.5
+pytest-cov==6.1.1
+ssort==0.14.0
+pydocstyle==6.3.0
+pre-commit==4.2.0
+platformdirs==4.3.7

@@ -1,19 +1,18 @@
 """Module defining click commands."""
 
-import logging
 import os
 
 import click
 
-from src import config
-from src.bids import BIDSDirectory, ClinicaDirectory
-from src.commands.freesurfer import (
+from neuro_ix_tools import config
+from neuro_ix_tools.bids import BIDSDirectory, ClinicaDirectory
+from neuro_ix_tools.processing.freesurfer import (
     slurm_freesurfer_all_results,
     slurm_freesurfer_cortical_stats,
 )
 
 
-@click.group()
+@click.group("freesurfer")
 def freesurfer_cli():
     """Freesurfer related commands."""
 
@@ -70,16 +69,18 @@ def recon_all(
         slurm_cmd(sub, ses, ds).sbatch()
 
     if len(sub_ses) > 1000:
-        logging.warning(
+        click.secho(
             (
-                "Dataset contain %s but only the first 1000 can be processed"
+                f"Dataset contain {len(sub_ses)} but only the first 1000 can be processed"
                 "due to limits on slurm cluster jobs"
             ),
-            len(sub_ses),
+            color="red",
+            bold=True,
         )
-        logging.warning(
+        click.secho(
             (
                 "Once the jobs are finished, launch the same command with the argument"
                 " : --start-from {start_from + 1000}"
-            )
+            ),
+            bold=True,
         )

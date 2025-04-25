@@ -6,11 +6,11 @@ import shutil
 
 from simple_slurm import Slurm
 
-from src import config
-from src.bids import BIDSDirectory
-from src.commands.apptainer import ApptainerEnv
-from src.commands.base_cmd import Command
-from src.commands.slurm import get_apptainer_job
+from neuro_ix_tools import config
+from neuro_ix_tools.bids import BIDSDirectory
+from neuro_ix_tools.processing.apptainer import ApptainerEnv
+from neuro_ix_tools.processing.base_cmd import Command
+from neuro_ix_tools.processing.slurm import get_apptainer_job
 
 
 class FreeSurferReconAll(Command):

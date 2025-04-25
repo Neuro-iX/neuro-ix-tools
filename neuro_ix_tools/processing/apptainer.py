@@ -2,8 +2,8 @@
 
 import logging
 
-from src import config
-from src.commands.base_cmd import Command
+from neuro_ix_tools import config
+from neuro_ix_tools.processing.base_cmd import Command
 
 
 class ApptainerEnv(Command):
