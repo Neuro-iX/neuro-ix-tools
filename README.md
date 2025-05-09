@@ -8,7 +8,7 @@ Common Tools for the Neuro-iX Lab
 You will need an environment with at least **Python 3.11**, then run:
 
 ```bash
-pip install neuro-ix-tool
+pip install neuro-ix-tools
 ```
 
 Alternatively, you can clone the repository and use:
