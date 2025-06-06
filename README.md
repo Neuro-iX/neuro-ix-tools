@@ -115,5 +115,5 @@ python -m build
 And deploy to PyPI with :
 
 ```
-twine upload sit/*
+twine upload dist/*
 ```
