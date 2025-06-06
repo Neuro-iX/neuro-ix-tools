@@ -40,8 +40,23 @@ def apptainer_fs():
 
 
 @pytest.fixture()
+def apptainer_no_ses_fs():
+    return ApptainerFreesurfer(
+        "sub-000103",
+        None,
+        BIDSDirectory("tests/data/bids_sub"),
+        "test_outputs",
+    )
+
+
+@pytest.fixture()
 def ds():
     return BIDSDirectory("tests/data/bids_sub_ses")
+
+
+@pytest.fixture()
+def ds_no_ses():
+    return BIDSDirectory("tests/data/bids_sub")
 
 
 def test_apptainer_freesurfer_compile(apptainer_fs: ApptainerFreesurfer):
@@ -51,6 +66,14 @@ def test_apptainer_freesurfer_compile(apptainer_fs: ApptainerFreesurfer):
     assert (
         "--bind tests/data/bids_sub_ses/sub-000103/ses-standard/anat:/data" in command
     )
+    assert "--bind test_outputs:/tmp" in command
+
+
+def test_apptainer_freesurfer_compile_no_ses(apptainer_no_ses_fs: ApptainerFreesurfer):
+    command = apptainer_no_ses_fs.compile()
+    fs_command = apptainer_no_ses_fs.freesurfer_cmd.compile()
+    assert fs_command in command
+    assert "--bind tests/data/bids_sub/sub-000103/anat:/data" in command
     assert "--bind test_outputs:/tmp" in command
 
 
@@ -71,6 +94,16 @@ def test_create_subject_directories(ds):
     assert sub_dir == "tests/data/bids_sub_ses/derivatives/sub-000103/ses-standard"
 
     shutil.rmtree("tests/data/bids_sub_ses/derivatives")
+
+
+def test_create_subject_directories_no_ses(ds_no_ses):
+    sub_dir = create_subject_directories("sub-000103", None, ds_no_ses)
+
+    assert os.path.exists("tests/data/bids_sub/derivatives")
+    assert os.path.exists("tests/data/bids_sub/derivatives/sub-000103")
+    assert sub_dir == "tests/data/bids_sub/derivatives/sub-000103"
+
+    shutil.rmtree("tests/data/bids_sub/derivatives")
 
 
 def test_cpy_cortical_stats_only(apptainer_fs: ApptainerFreesurfer, ds):
@@ -129,6 +162,21 @@ def test_cpy_all(apptainer_fs: ApptainerFreesurfer, ds):
     assert match is not None
 
     shutil.rmtree("tests/data/bids_sub_ses/derivatives")
+
+
+def test_cpy_all_no_ses(apptainer_no_ses_fs: ApptainerFreesurfer, ds_no_ses):
+    job = apptainer_no_ses_fs.to_slurm()
+    create_subject_directories("sub-000103", None, ds_no_ses)
+
+    cpy_all("tests/data/bids_sub/derivatives/sub-000103", "test_fsdir", job)
+
+    match = re.search(
+        r"mv \\\$SLURM_TMPDIR\/test_fsdir.*tests\/data\/bids_sub\/derivatives\/sub-000103\/",
+        str(job),
+    )
+    assert match is not None
+
+    shutil.rmtree("tests/data/bids_sub/derivatives")
 
 
 def test_slurm_freesurfer_cortical_stats(ds):

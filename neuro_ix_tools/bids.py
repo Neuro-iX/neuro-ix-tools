@@ -53,7 +53,7 @@ class BIDSDirectory:
                 for ses in self.get_sessions(sub):
                     yield sub, ses
             else:
-                yield (sub,)
+                yield (sub, None)
 
     def get_all_t1w(self, sub_id: str, ses_id: str | None = None) -> list[str]:
         """Return path to all T1w volumes.

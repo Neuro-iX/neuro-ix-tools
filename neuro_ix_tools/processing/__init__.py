@@ -45,12 +45,12 @@ def recon_all(
     bids_dataset: str, clinica_dataset: str, cortical_stats: bool, start_from: int
 ):
     """Compute freesurfer recon-all."""
-    assert bids_dataset is not None or clinica_dataset is not None, (
-        "One dataset path should be specified"
-    )
-    assert bids_dataset is None or clinica_dataset is None, (
-        "Only one dataset path should be specified"
-    )
+    assert (
+        bids_dataset is not None or clinica_dataset is not None
+    ), "One dataset path should be specified"
+    assert (
+        bids_dataset is None or clinica_dataset is None
+    ), "Only one dataset path should be specified"
 
     if not os.path.exists(config.FREESURFER_LOGS):
         os.makedirs(config.FREESURFER_LOGS)

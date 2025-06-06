@@ -26,7 +26,7 @@ def test_bids_sub_walk(bids_sub):
     walked = list(bids_sub.walk())
 
     assert len(walked) == 2
-    assert len(walked[0]) == 1, "Walk seems to report sessions"
+    assert len(walked[0]) == 2, "Walk should report sessions"
     assert len(walked) == len(bids_sub)
 
 

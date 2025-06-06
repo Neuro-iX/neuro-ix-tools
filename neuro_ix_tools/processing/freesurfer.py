@@ -44,7 +44,9 @@ class ApptainerFreesurfer(Command):
             subject_output (str): final folder to store freesurfer outputs
         """
         # the directory where freesurfer will store results(needs to be unique)
-        self.fs_dir = sub_id + ses_id
+        self.fs_dir = sub_id
+        if ses_id:
+            self.fs_dir += sub_id
         self.sub_id = sub_id
         self.ses_id = ses_id
 
@@ -81,9 +83,9 @@ class ApptainerFreesurfer(Command):
             config.FREESURFER_LOGS, f"freesurfer_{self.sub_id}_{self.ses_id}.%j.out"
         )
 
-        assert config.DEFAULT_SLURM_ACCOUNT is not None, (
-            "Missing default Slurm account (define env variable $DEFAULT_SLURM_ACCOUNT)"
-        )
+        assert (
+            config.DEFAULT_SLURM_ACCOUNT is not None
+        ), "Missing default Slurm account (define env variable $DEFAULT_SLURM_ACCOUNT)"
         job = get_apptainer_job(
             mem="30G",
             time="10:00:00",
@@ -109,7 +111,9 @@ def create_subject_directories(sub_id: str, ses_id: str, dataset: BIDSDirectory)
     """
     derivative_dir = os.path.join(dataset.dataset_path, "derivatives")
     os.makedirs(derivative_dir, exist_ok=True)
-    sub_dir = os.path.join(derivative_dir, sub_id, ses_id)
+    sub_dir = os.path.join(derivative_dir, sub_id)
+    if ses_id:
+        sub_dir = os.path.join(sub_dir, ses_id)
     os.makedirs(sub_dir, exist_ok=True)
     return sub_dir
 
