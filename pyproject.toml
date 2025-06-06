@@ -13,7 +13,7 @@ exclude = [
 
 [project]
 name = "neuro-ix-tools"
-version = "0.0.7"
+version = "0.0.8"
 description = "CLI and utils for the Neuro-iX lab"
 readme = "README.md"
 license = "MIT"
