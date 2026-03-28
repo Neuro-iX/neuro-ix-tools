@@ -46,7 +46,7 @@ class ApptainerFreesurfer(Command):
         # the directory where freesurfer will store results(needs to be unique)
         self.fs_dir = sub_id
         if ses_id:
-            self.fs_dir += sub_id
+            self.fs_dir = f"{sub_id}_{ses_id}"
         self.sub_id = sub_id
         self.ses_id = ses_id
 

@@ -65,7 +65,7 @@ def recon_all(
     else:
         slurm_cmd = slurm_freesurfer_all_results
     sub_ses = list(ds.walk())
-    for sub, ses in sub_ses[start_from:1000]:
+    for sub, ses in sub_ses[start_from:start_from + 1000]:
         slurm_cmd(sub, ses, ds).sbatch()
 
     if len(sub_ses) > 1000:
@@ -80,7 +80,7 @@ def recon_all(
         click.secho(
             (
                 "Once the jobs are finished, launch the same command with the argument"
-                " : --start-from {start_from + 1000}"
+                f" : --start-from {start_from + 1000}"
             ),
             bold=True,
         )
