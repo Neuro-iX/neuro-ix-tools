@@ -56,20 +56,16 @@ class BIDSDirectory:
                 yield (sub, None)
 
     def get_all_t1w(self, sub_id: str, ses_id: str | None = None) -> list[str]:
-        """Return path to all T1w volumes.
-
-        Args:
-            sub_id (str): Subject id (sub-???)
-            ses_id (str, optional): Session id (ses-???). Defaults to None.
-
-        Returns:
-            list[str] : Path to all T1w
-        """
+        """Return path to all T1w volumes."""
         if ses_id is not None:
-            return glob.glob(
-                os.path.join(self.dataset_path, sub_id, ses_id, "anat", "*T1w.nii.gz")
-            )
-        return glob.glob(os.path.join(self.dataset_path, sub_id, "anat", "*T1w.nii.gz"))
+            anat_dir = os.path.join(self.dataset_path, sub_id, ses_id, "anat")
+        else:
+            anat_dir = os.path.join(self.dataset_path, sub_id, "anat")
+
+        nii_gz = glob.glob(os.path.join(anat_dir, "*T1w.nii.gz"))
+        nii = glob.glob(os.path.join(anat_dir, "*T1w.nii"))
+
+        return sorted(nii_gz + nii)
 
     def extract_sub_ses(self, path: str) -> tuple[str | None, str | None]:
         """Extract subject and session identifier from path.

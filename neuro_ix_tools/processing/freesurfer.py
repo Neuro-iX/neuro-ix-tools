@@ -46,7 +46,7 @@ class ApptainerFreesurfer(Command):
         # the directory where freesurfer will store results(needs to be unique)
         self.fs_dir = sub_id
         if ses_id:
-            self.fs_dir += sub_id
+            self.fs_dir = f"{sub_id}_{ses_id}"
         self.sub_id = sub_id
         self.ses_id = ses_id
 
@@ -79,8 +79,12 @@ class ApptainerFreesurfer(Command):
         Returns:
             Slurm: Ready to use Slurm job
         """
+        job_name = f"freesurfer_{self.sub_id}"
+        if self.ses_id:
+            job_name += f"_{self.ses_id}"
+
         output_slurm = os.path.join(
-            config.FREESURFER_LOGS, f"freesurfer_{self.sub_id}_{self.ses_id}.%j.out"
+            config.FREESURFER_LOGS, f"{job_name}.%j.out"
         )
 
         assert (
@@ -92,6 +96,7 @@ class ApptainerFreesurfer(Command):
             account=config.DEFAULT_SLURM_ACCOUNT,
             cpus=1,
             output=output_slurm,
+            job_name=job_name,
         )
 
         job.add_cmd(self.compile())
